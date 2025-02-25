@@ -94,4 +94,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-Developed by **Electrixitaty**. Reach out for contributions and improvements!
+Developed by **Lumona**. Reach out for contributions and improvements!
