@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Real Estate NFT & Escrow Smart Contracts
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project introduces a blockchain-based real estate transaction system using NFTs (Non-Fungible Tokens) and an escrow smart contract. The **RealEstate** smart contract allows users to mint and manage NFTs representing real estate properties. The **Escrow** smart contract facilitates secure property transactions by ensuring all conditions are met before finalizing the sale.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Real Estate Tokenization:** Converts real estate properties into ERC721 NFTs.
+- **Escrow Mechanism:** Ensures secure transactions between buyer and seller.
+- **Inspection Process:** Allows an inspector to verify property status.
+- **Approval System:** Requires approval from buyer, seller, and lender before transferring ownership.
+- **Secure Fund Handling:** Holds purchase funds in escrow until all conditions are met.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Smart Contracts
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### RealEstate.sol
 
-### `npm test`
+This contract handles the creation and storage of real estate NFTs.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Functions:
 
-### `npm run build`
+- `mint(string memory tokenURI)`: Mints a new real estate NFT with metadata URI.
+- `totalSupply()`: Returns the total number of minted NFTs.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Escrow.sol
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This contract manages the secure sale of real estate NFTs using an escrow mechanism.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Key Roles:
 
-### `npm run eject`
+- **Seller**: Lists the property for sale.
+- **Buyer**: Places an earnest deposit and completes the purchase.
+- **Lender**: Approves the transaction if financing is involved.
+- **Inspector**: Verifies the property condition.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### Functions:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `list(uint256 _nftID, address _buyer, uint256 _purchasePrice, uint256 _escrowAmount)`: Lists an NFT for sale.
+- `depositEarnest(uint256 _nftID)`: Buyer deposits earnest money.
+- `updateInspectionStatus(uint256 _nftID, bool _passed)`: Inspector updates inspection status.
+- `approveSale(uint256 _nftID)`: Participants approve the sale.
+- `finalizeSale(uint256 _nftID)`: Transfers NFT and funds upon approval.
+- `cancelSale(uint256 _nftID)`: Cancels the transaction and refunds accordingly.
+- `getBalance()`: Returns contract balance.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Deployment
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Prerequisites:
 
-## Learn More
+- Node.js & npm
+- Hardhat (Ethereum development framework)
+- MetaMask (for testing on testnets)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Steps:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Clone the repository:
+   ```sh
+   git clone <repo-url>
+   cd real-estate-nft
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Compile the smart contracts:
+   ```sh
+   npx hardhat compile
+   ```
+4. Deploy to a testnet (e.g., Goerli):
+   ```sh
+   npx hardhat run scripts/deploy.js --network goerli
+   ```
 
-### Code Splitting
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Mint an NFT** using `mint(tokenURI)`.
+2. **List the property** for sale via `list(nftID, buyer, purchasePrice, escrowAmount)`.
+3. **Deposit earnest money** using `depositEarnest(nftID)`.
+4. **Complete inspection** through `updateInspectionStatus(nftID, true/false)`.
+5. **Approve the sale** from buyer, seller, and lender.
+6. **Finalize transaction** via `finalizeSale(nftID)`.
+7. **Cancel the sale** if needed using `cancelSale(nftID)`.
 
-### Analyzing the Bundle Size
+## Security Considerations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Ensure private key security when deploying.
+- Use only verified smart contract addresses.
+- Implement additional safeguards against front-running attacks.
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This project is licensed under the [MIT License](LICENSE).
 
-### Advanced Configuration
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Developed by **Electrixitaty**. Reach out for contributions and improvements!
